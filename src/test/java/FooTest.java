@@ -9,35 +9,35 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class HttpServletRequestsTest {
+public class FooTest {
 
     @Mock
     private HttpServletRequest request;
 
     @Test
-    public void testGetClientAddress$Forwarded() {
+    public void a() {
         when(request.getHeader("Forwarded")).thenReturn("for=55.66.77.88; proto=http; by=5.4.2.6");
         when(request.getHeader("X-Forwarded-For")).thenReturn("77.88.55.66, 55.66.77.88");
         when(request.getRemoteAddr()).thenReturn("1.2.3.4");
 
-        String actual = HttpServletRequests.getClientAddress(request);
+        String actual = Foo.bar(request);
         assertThat(actual).isEqualTo("55.66.77.88");
     }
 
     @Test
-    public void testGetClientAddress$XForwardedFor() {
+    public void b() {
         when(request.getHeader("X-Forwarded-For")).thenReturn("77.88.55.66, 55.66.77.88");
         when(request.getRemoteAddr()).thenReturn("1.2.3.4");
 
-        String actual = HttpServletRequests.getClientAddress(request);
+        String actual = Foo.bar(request);
         assertThat(actual).isEqualTo("77.88.55.66");
     }
 
     @Test
-    public void testGetClientAddress$RequestRemoteAddr() {
+    public void c() {
         when(request.getRemoteAddr()).thenReturn("1.2.3.4");
 
-        String actual = HttpServletRequests.getClientAddress(request);
+        String actual = Foo.bar(request);
         assertThat(actual).isEqualTo("1.2.3.4");
     }
 }
